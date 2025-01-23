@@ -1,0 +1,22 @@
+
+
+<a 
+  hx-get="{% url 'website_data_detail' website.id %}" 
+  class="list-group-item list-group-item-action py-3 lh-tight"
+  hx-target="#detail_data"
+  hx-trigger="click"
+  hx-swap="innerHTML"
+  href="#"
+>
+
+  <div class="d-flex flex-row align-items-center gap-2">
+    <div>
+      <i class="bi bi-globe"></i>
+    </div>
+    <div class="">
+      {{  website.website_name }}
+    </div>
+  </div>
+</a>
+
+

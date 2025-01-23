@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<div>
+  <div class="py-4">
+    <form id="create">
+    <div class="d-flex gap-2 align-items-center justify-content-between">
+      <div class=" fs-4 gap-2 align-items-center">
+        <i class="bi bi-globe "></i>
+        <span class="">{{ website.website_name }}</span>     
+      </div>
+      <div class="d-flex gap-4 fs-6 ">
+        <div class="">
+          <a href="#"
+            hx-get="{% url 'website_data_update' website.id %}" 
+            hx-target="#detail_data"
+            hx-trigger="click"
+            hx-swap="innerHTML"
+
+          
+          class="link-secondary text-decoration-none">
+            <i class="bi bi-pencil-fill"></i>
+            <span>
+              Редактировать
+            </span>
+          </a>
+        </div>
+        <div>
+            <a href="#"
+            hx-post="{% url 'website_data_delete' website.id %}" 
+            hx-target="#app"
+            hx-trigger="click"
+            hx-swap="innerHTML"
+
+            class="link-secondary text-decoration-none">
+              <i class="bi bi-trash-fill"></i>
+              <span>Удалить</span>
+            </a>  
+        </div>
+      </div>
+    </div>
+    <div>
+        {% csrf_token %}
+        <div class="d-flex py-4">
+          <div class="d-flex flex-column gap-4">
+            <div>
+              <div>
+
+              
+                <div>
+                  Адрес веб-сайта
+                </div>
+                <div>
+                  {% if not website.website_url.label %}
+                    <a href="{{ website.website_url}}">{{ website.website_url}}</a>
+                  {% else %}
+                    {{ website.website_url}}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div>
+              <div> 
+                <div>
+                  Логин / Электронныая почта
+                </div>
+                <div>
+                  {{ website.username }}
+                </div>
+              </div>
+            </div>
+            <div>
+              <div>
+                <div>
+                  Пароль
+                </div>
+                <div>
+                  {{ website.password}}
+                </div>
+              </div>
+            </div>
+            {% if website.as_p%}
+            <div>
+              <button 
+              hx-post="{% url 'website_data_create' %}"
+              hx-target="#create"
+              type="button" class="btn btn-primary" >Сохранить</button>
+              <button type="button" class="btn btn-danger">Отмена</button>
+
+            </div>
+            {% endif %}
+          </div>
+          <div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div> 
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+FROM python:3.12-alpine3.20
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN apk update && apk upgrade && apk add poetry 
+
+ARG MAIN_DIR=/app
+
+RUN mkdir -p ${MAIN_DIR}
+
+WORKDIR ${MAIN_DIR}
+
+COPY src/. ${MAIN_DIR}/
+
+COPY poetry.lock pyproject.toml  ${MAIN_DIR}/
+
+RUN poetry install
+
+
+EXPOSE 8000
+

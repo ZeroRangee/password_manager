@@ -1,0 +1,14 @@
+services:
+    app:
+        container_name: password_manager
+        build: 
+            context: .
+            dockerfile: docker-files/app/DockerFile
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./src:/app
+        command: >
+            sh -c "python manage.py migrate  && python manage.py --bind 0.0.0.0:8000 "
+
+    
