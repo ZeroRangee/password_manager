@@ -2,10 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-import subprocess
 
-print(subprocess.run(["ls"], capture_output=True, text=True).stdout)
-print(subprocess.run(["poetry", "show"], capture_output=True, text=True).stdout)
 
 def main():
     """Run administrative tasks."""

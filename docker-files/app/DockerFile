@@ -1,22 +1,24 @@
 FROM python:3.12-alpine3.20
 
+WORKDIR /app
+
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apk update && apk upgrade && apk add poetry 
+RUN apk add --no-cache gcc musl-dev libffi-dev
 
-ARG MAIN_DIR=/app
+RUN pip install --no-cache-dir poetry
 
-RUN mkdir -p ${MAIN_DIR}
 
-WORKDIR ${MAIN_DIR}
 
-COPY src/. ${MAIN_DIR}/
 
-COPY poetry.lock pyproject.toml  ${MAIN_DIR}/
+COPY src/. /poetry.lock /pyproject.toml /app/
 
-RUN poetry install
+RUN poetry config virtualenvs.create false
+RUN poetry install --no-interaction --no-ansi --no-root
+
 
 
 EXPOSE 8000
 
+CMD ["python", "manage.py", "runserver"]
