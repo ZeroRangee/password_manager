@@ -35,13 +35,18 @@
           </select>
         </div>
       </div>
-      <div class="h-100 border-top">
+      <div class="h-100 border-top d-flex justify-content-center">
+        {% if websites.len %}
         <div class="list-group list-group-flush border-bottom scrollarea">
-          {% for website in websites %}
-            {% include "item_data_website.html" %}
-          {% endfor %}
+            {% for website in websites %}
+              {% include "item_data_website.html" %}
+            {% endfor %}
+         
+            
         </div>
-        
+        {% else %}
+          <h6>Ничего нету</h6>
+        {% endif %}  
       </div>
     </div>   
     <div class="p-3 flex-fill ">
