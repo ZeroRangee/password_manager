@@ -1,12 +1,41 @@
 services:
     app:
-        container_name: password_manager
+        # command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+        command: python manage.py runserver 0.0.0.0:8000
         build: 
             context: .
             dockerfile: docker-files/app/DockerFile
-        ports:
-            - "8000:8000"
+        # ports:
+        #     - "8000:8000"
         volumes:
             - ./src:/app
+        depends_on:
+            - redis
 
-    
+    redis:
+        image: redis:7.4-alpine
+        ports:
+            - "6379:6379"
+        restart: always
+
+
+    nginx:
+        build: 
+            context: .
+            dockerfile: docker-files/nginx/DockerFile
+        volumes:     
+            - ./docker-files/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+        ports:
+            - "4433:443"
+
+
+        depends_on:
+            - app
+            - maildev
+
+
+    maildev:
+        image: maildev/maildev
+        ports:
+            - "1080:1080"
+

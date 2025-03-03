@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+    <div class="h-80">
+        <form class="d-flex" id="otp_form">
+            {% csrf_token %}
+            <div class="d-flex flex-column gap-2">
+                <div class="d-flex flex-row">
+                    <div>
+                        {{ form.email }}
+                        <button
+                        hx-post="{% url 'send_otp' %}" 
+                        class="btn btn-primary"
+                        hx-target="#message"
+                        hx-trigger="click"
+                        hx-swap="innerHTML"
+                        href="#"
+                        type="button"
+                        >Отправить код</button>
+                    </div>
+                    <div id="message">
+                        <span>{{ form.email.errors }}</span>
+                    </div>
+                </div>
+                <div>
+                    {{ form.otp }}
+                    
+
+                </div>
+                <span>{{ form.otp.errors }}</span>
+
+                <div>
+                    <button
+                    hx-post="{% url 'auth' %}" 
+                    class="btn btn-success"
+                    hx-target="#detail_data"
+                    hx-trigger="click"
+                    hx-swap="innerHTML"
+                    href="#"
+                    type="button"
+                    >Авторизоваться</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock content %}

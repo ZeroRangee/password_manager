@@ -7,4 +7,3 @@ class PasswordManagerConfig(AppConfig):
 
 
 
-

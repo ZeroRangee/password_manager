@@ -1,0 +1,12 @@
+FROM nginx:1.27
+
+RUN apt-get update && apt-get install -y libnss3-tools curl && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://github.com/FiloSottile/mkcert/releases/latest/download/mkcert-v1.4.4-linux-amd64 -o /usr/local/bin/mkcert && \
+    chmod +x /usr/local/bin/mkcert
+
+RUN mkdir -p /etc/nginx/certs
+
+RUN mkcert -install
+
+RUN mkcert -key-file /etc/nginx/certs/local.key -cert-file /etc/nginx/certs/local.crt "password-manager.local"

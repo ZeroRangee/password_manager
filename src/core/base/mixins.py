@@ -1,10 +1,11 @@
 from django.shortcuts import render
-
+from password_manager.models import EntryPassword
 from django.core.exceptions import ImproperlyConfigured
 
 
 class MixinFormValidTemplate:
     success_template = None
+    object = EntryPassword.objects.all()
     
     def get_success_template(self):
         if not self.success_template:

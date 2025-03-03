@@ -6,7 +6,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
-from password_manager.views.mixins import MixinFormValidTemplate
+from core.base.mixins import MixinFormValidTemplate
 
 class HomeView(ListView):
     template_name = "home.html"
