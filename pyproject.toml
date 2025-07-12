@@ -16,6 +16,9 @@ gunicorn = "^23.0.0"
 black = "^25.1.0"
 isort = "^6.0.1"
 flake8 = "^7.1.2"
+environs = "^14.1.1"
+flower = "^2.0.1"
+celery = {extras = ["redis"], version = "^5.5.2"}
 
 
 [build-system]

@@ -16,17 +16,22 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+from environs import Env
+
+env = Env()
+
+env.read_env(BASE_DIR / ".env")
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "123"
+SECRET_KEY = env("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG")
 
-ALLOWED_HOSTS = ['0.0.0.0', "password-manager.local"]
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Application definition
@@ -175,5 +180,11 @@ EMAIL_HOST='maildev'
 EMAIL_PORT=1025
 DEFAULT_FROM_EMAIL ="service@password-manager"
 EMAIL_HOST_USER=''
-EMAIL_HOST_PASSWOR=''
+EMAIL_HOST_PASSWORD=''
 EMAIL_USE_TLS=False
+
+
+
+
+CELERY_BROKER_URL = f"{HOST_REDIS}://{HOST_REDIS}:{PORT_REDIS}/2"
+CELERY_RESULT_BACKEND = f"{HOST_REDIS}://{HOST_REDIS}:{PORT_REDIS}/2"

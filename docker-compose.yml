@@ -1,19 +1,18 @@
 services:
     app:
-        # command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
-        command: python manage.py runserver 0.0.0.0:8000
+        command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
         build: 
             context: .
             dockerfile: docker-files/app/DockerFile
-        # ports:
-        #     - "8000:8000"
         volumes:
             - ./src:/app
+            - ./.env:/app/.env
         depends_on:
             - redis
 
     redis:
         image: redis:7.4-alpine
+        hostname: redis
         ports:
             - "6379:6379"
         restart: always
@@ -28,7 +27,6 @@ services:
         ports:
             - "4433:443"
 
-
         depends_on:
             - app
             - maildev
@@ -39,3 +37,26 @@ services:
         ports:
             - "1080:1080"
 
+    celery:
+        build: 
+            context: .
+            dockerfile: docker-files/app/DockerFile
+        command: celery -A core worker --loglevel=info
+        volumes:
+            - ./src:/app
+            - ./.env:/app/.env
+        depends_on:
+            - redis
+
+    flower:
+        build: 
+            context: .
+            dockerfile: docker-files/app/DockerFile
+        command: celery -A core flower --port=5555
+        volumes:
+            - ./src:/app
+            - ./.env:/app/.env
+        ports:
+            - "5555:5555"
+        depends_on:
+            - redis
